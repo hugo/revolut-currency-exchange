@@ -112,14 +112,18 @@ export const exchangeMachine = createMachine<Context, Event, State>({
             },
             CONVERT_FROM: {
               actions: assign({
-                fromAmount: ({toAmount = '0', rate = 1}) =>
-                  (parseFloat(toAmount) / rate).toFixed(2),
+                fromAmount: ({toAmount, rate = 1}) =>
+                  toAmount
+                    ? (parseFloat(toAmount) / rate).toFixed(2)
+                    : undefined,
               }),
             },
             CONVERT_TO: {
               actions: assign({
-                toAmount: ({fromAmount = '0', rate = 1}) =>
-                  (parseFloat(fromAmount) * rate).toFixed(2),
+                toAmount: ({fromAmount, rate = 1}) =>
+                  fromAmount
+                    ? (parseFloat(fromAmount) * rate).toFixed(2)
+                    : undefined,
               }),
             },
           },

@@ -17,6 +17,7 @@ type Context = {
 type Event =
   | {type: 'CHANGE_FROM_CURRENCY'; currency: Currency}
   | {type: 'CHANGE_TO_CURRENCY'; currency: Currency}
+  | {type: 'SWITCH_CURRENCIES'}
   | {type: 'CHANGE_FROM_AMOUNT'; amount?: string}
   | {type: 'CHANGE_TO_AMOUNT'; amount?: string}
   | {type: 'CONVERT_FROM'}
@@ -89,6 +90,13 @@ export const exchangeMachine = createMachine<Context, Event, State>({
                 }),
               },
             ],
+            SWITCH_CURRENCIES: {
+              target: 'polling',
+              actions: assign({
+                from: (ctx) => ctx.to,
+                to: (ctx) => ctx.from,
+              }),
+            },
             CHANGE_FROM_AMOUNT: {
               actions: [
                 assign({fromAmount: (_ctx, evt) => evt.amount}),

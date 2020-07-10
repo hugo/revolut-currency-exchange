@@ -1,5 +1,6 @@
 import React from 'react'
 import {useMachine} from '@xstate/react'
+import {SwitchVertical} from 'heroicons-react'
 
 import {Currency} from '../lib/currency'
 import {ExchangePocket} from './ExchangePocket'
@@ -36,11 +37,12 @@ export const Exchange: React.FC<Props> = ({
     send({type: 'CHANGE_FROM_AMOUNT', amount})
   const changeToAmount = (amount?: string) =>
     send({type: 'CHANGE_TO_AMOUNT', amount})
+  const switchCurrencies = () => send({type: 'SWITCH_CURRENCIES'})
 
   const currencies = Object.keys(state.context.pockets) as Currency[]
 
   return (
-    <div className="rounded-md overflow-hidden border border-gray-300">
+    <div className="relative rounded-md overflow-hidden border border-gray-300">
       <div className="bg-white">
         <div className="p-6">
           <ExchangePocket
@@ -56,6 +58,20 @@ export const Exchange: React.FC<Props> = ({
       </div>
 
       <div className="-my-4 flex justify-center items-center">
+        <span className="flex-1">
+          <div className="px-12 flex justify-start">
+            <button
+              onClick={(e) => {
+                e.currentTarget.blur()
+                switchCurrencies()
+              }}
+              className="z-10 bg-white cursor-pointer text-blue-500 border border-gray-200 shadow-sm rounded-full overflow-hidden p-1"
+            >
+              <SwitchVertical size={14} />
+            </button>
+          </div>
+        </span>
+
         {state.context.rate ? (
           <span className="text-blue-500">
             <ExchangeRateDisplay
@@ -65,6 +81,8 @@ export const Exchange: React.FC<Props> = ({
             />
           </span>
         ) : null}
+
+        <div className="flex-1" />
       </div>
 
       <div className="bg-gray-400">

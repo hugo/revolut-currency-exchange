@@ -8,7 +8,7 @@ export default function Home() {
         <title>Exchange</title>
       </Head>
 
-      <div>
+      <div className="font-bold p-4">
         <h1>Exchange</h1>
       </div>
     </>

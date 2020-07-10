@@ -18,7 +18,7 @@ export default function Home() {
           <Card>
             <CardHeader>Exchange</CardHeader>
 
-            <div className="px-4 py-5 sm:p-6">
+            <div className="py-5 sm:py-6">
               <Exchange />
             </div>
           </Card>

@@ -5,6 +5,7 @@ import {Currency} from './currency'
 type Context = {
   from: Currency
   to: Currency
+  pockets: Record<Currency, number>
   rate?: number
   error?: Error
   pollExchangeRate(from: Currency, to: Currency): Promise<number>
@@ -22,6 +23,11 @@ export const exchangeMachine = createMachine<Context, Event, State>({
   context: {
     from: 'GBP',
     to: 'USD',
+    pockets: {
+      GBP: 0,
+      USD: 0,
+      EUR: 0,
+    },
     pollExchangeRate() {
       return Promise.reject(
         new Error('Must provide `pollExchangeRate` function')

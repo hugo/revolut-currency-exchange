@@ -8,6 +8,8 @@ import {exchangeMachine} from '../lib/exchangeMachine'
 import {exchangeRate} from '../lib/exchangeRate'
 
 type Props = {
+  // In the real world, we'd expect this to be passed in
+  // pockets: Record<Currency, number>
   pollExchangeRate?(from: Currency, to: Currency): Promise<number>
 }
 
@@ -18,6 +20,11 @@ export const Exchange: React.FC<Props> = ({
     context: {
       from: 'GBP',
       to: 'USD',
+      pockets: {
+        GBP: Math.random() * 2000,
+        EUR: Math.random() * 2000,
+        USD: Math.random() * 2000,
+      },
       pollExchangeRate,
     },
   })
@@ -26,7 +33,10 @@ export const Exchange: React.FC<Props> = ({
     <div className="rounded-md overflow-hidden border border-gray-300">
       <div className="bg-white">
         <div className="p-6">
-          <ExchangePocket />
+          <ExchangePocket
+            currency={state.context.from}
+            balance={state.context.pockets[state.context.from]}
+          />
         </div>
       </div>
 
@@ -44,7 +54,10 @@ export const Exchange: React.FC<Props> = ({
 
       <div className="bg-gray-400">
         <div className="p-6">
-          <ExchangePocket />
+          <ExchangePocket
+            currency={state.context.to}
+            balance={state.context.pockets[state.context.to]}
+          />
         </div>
       </div>
     </div>

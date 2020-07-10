@@ -7,17 +7,21 @@ import {Card} from '../components/Card'
 import {CardHeader} from '../components/CardHeader'
 import {Exchange} from '../components/Exchange'
 
-export default function Home() {
+type Props = {
+  header?: string
+}
+
+export default function Home({header = 'Exchange'}: Props) {
   return (
     <>
       <Head>
-        <title>Exchange</title>
+        <title>{header}</title>
       </Head>
 
       <NarrowContainer>
         <div className="p-8">
           <Card>
-            <CardHeader>Exchange</CardHeader>
+            <CardHeader>{header}</CardHeader>
 
             <div className="py-5 sm:py-6">
               <Exchange />

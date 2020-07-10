@@ -13,8 +13,8 @@ describe('<Home />', () => {
   })
 
   test('render', () => {
-    const header = 'Exchange'
-    const {getByText} = render(<Home />)
+    const header = 'Exchange Test'
+    const {getByText} = render(<Home header={header} />)
 
     expect(getByText(header)).toBeInTheDocument()
   })

@@ -19,7 +19,7 @@ type Props = {
   currency: Currency
   balance: number
   direction: 'from' | 'to'
-  amount?: number
+  amount?: string
   onChangeCurrency?(c: Currency): void
   onChangeAmount?(v?: string): void
 }

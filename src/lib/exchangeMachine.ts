@@ -1,12 +1,13 @@
-import {createMachine, assign} from 'xstate'
+import {createMachine, assign, send} from 'xstate'
 
 import {Currency} from './currency'
+import {cancel} from 'xstate/lib/actions'
 
 type Context = {
   from: Currency
   to: Currency
-  fromAmount?: number
-  toAmount?: number
+  fromAmount?: string
+  toAmount?: string
   pockets: Record<Currency, number>
   rate?: number
   error?: Error
@@ -18,6 +19,8 @@ type Event =
   | {type: 'CHANGE_TO_CURRENCY'; currency: Currency}
   | {type: 'CHANGE_FROM_AMOUNT'; amount?: string}
   | {type: 'CHANGE_TO_AMOUNT'; amount?: string}
+  | {type: 'CONVERT_FROM'}
+  | {type: 'CONVERT_TO'}
 
 type State =
   | {value: 'initial'; context: Context}
@@ -87,10 +90,36 @@ export const exchangeMachine = createMachine<Context, Event, State>({
               },
             ],
             CHANGE_FROM_AMOUNT: {
-              actions: assign({fromAmount: (_ctx, evt) => evt.amount}),
+              actions: [
+                assign({fromAmount: (_ctx, evt) => evt.amount}),
+                cancel('convetTo'),
+                send('CONVERT_TO', {
+                  delay: 500,
+                  id: 'convetTo',
+                }),
+              ],
             },
             CHANGE_TO_AMOUNT: {
-              actions: assign({toAmount: (_ctx, evt) => evt.amount}),
+              actions: [
+                assign({toAmount: (_ctx, evt) => evt.amount}),
+                cancel('convertFrom'),
+                send('CONVERT_FROM', {
+                  delay: 500,
+                  id: 'convertFrom',
+                }),
+              ],
+            },
+            CONVERT_FROM: {
+              actions: assign({
+                fromAmount: ({toAmount = '0', rate = 1}) =>
+                  (parseFloat(toAmount) / rate).toFixed(2),
+              }),
+            },
+            CONVERT_TO: {
+              actions: assign({
+                toAmount: ({fromAmount = '0', rate = 1}) =>
+                  (parseFloat(fromAmount) * rate).toFixed(2),
+              }),
             },
           },
           after: {

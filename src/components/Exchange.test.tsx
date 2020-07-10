@@ -31,7 +31,7 @@ describe('<Exchange />', () => {
     expect(pollExchangeRate).toHaveBeenCalledTimes(1)
   })
 
-  test.only('polling', async () => {
+  test('polling', async () => {
     const initialRate = 1.1
     const polledRate = 1.2
     const pollExchangeRate = jest

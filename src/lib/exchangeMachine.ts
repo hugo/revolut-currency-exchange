@@ -26,7 +26,10 @@ type Event =
 
 type State =
   | {value: 'values.editing'; context: Context}
-  | {value: 'values.validating'; context: Context}
+  | {
+      value: 'values.validating'
+      context: Context & {fromAmount: string; toAmount: string; rate: number}
+    }
   | {value: 'poll.initial'; context: Context}
   | {value: 'poll.idle'; context: Context}
   | {value: 'poll.polling'; context: Context}
@@ -111,6 +114,7 @@ export const exchangeMachine = createMachine<Context, Event, State>({
               ],
             },
             CONVERT_FROM: {
+              target: 'validating',
               actions: assign({
                 fromAmount: ({toAmount, rate = 1}) =>
                   toAmount
@@ -119,6 +123,7 @@ export const exchangeMachine = createMachine<Context, Event, State>({
               }),
             },
             CONVERT_TO: {
+              target: 'validating',
               actions: assign({
                 toAmount: ({fromAmount, rate = 1}) =>
                   fromAmount
@@ -128,7 +133,26 @@ export const exchangeMachine = createMachine<Context, Event, State>({
             },
           },
         },
-        validating: {},
+        validating: {
+          always: [
+            {
+              target: 'editing',
+              actions: assign({
+                error: (_ctx) => new Error('Insufficient balance'),
+              }),
+              cond: ({from, fromAmount = '0', pockets}) => {
+                const balance = pockets[from]
+                const needed = parseFloat(fromAmount)
+
+                return balance < needed
+              },
+            },
+            {
+              target: 'editing',
+              actions: assign({error: (_ctx) => undefined}),
+            },
+          ],
+        },
       },
     },
     poll: {

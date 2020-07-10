@@ -53,6 +53,7 @@ export const Exchange: React.FC<Props> = ({
             onChangeCurrency={changeFromCurrency}
             amount={state.context.fromAmount}
             onChangeAmount={changeFromAmount}
+            error={state.context.error}
           />
         </div>
       </div>

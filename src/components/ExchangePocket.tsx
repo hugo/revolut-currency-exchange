@@ -20,6 +20,7 @@ type Props = {
   balance: number
   direction: 'from' | 'to'
   amount?: string
+  error?: Error
   onChangeCurrency?(c: Currency): void
   onChangeAmount?(v?: string): void
 }
@@ -30,6 +31,7 @@ export const ExchangePocket: React.FC<Props> = ({
   balance,
   direction,
   amount,
+  error,
   onChangeCurrency,
   onChangeAmount,
 }) => (
@@ -56,11 +58,16 @@ export const ExchangePocket: React.FC<Props> = ({
         </span>
       </div>
     </div>
-    <div className="flex-1 flex justify-end items-center">
+    <div className="relative flex-1 flex justify-end items-center">
       <DecimalInput
         onChange={onChangeAmount}
         value={amount ? `${amount}` : ''}
       />
+      {error ? (
+        <div className="absolute bottom-0 right-0">
+          <span className="text-sm text-gray-500">{error?.message}</span>
+        </div>
+      ) : null}
     </div>
   </div>
 )

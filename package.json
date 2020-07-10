@@ -13,6 +13,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "heroicons-react": "^1.0.15",
     "i": "^0.3.6",
     "next": "9.4.4",
     "npm": "^6.14.6",

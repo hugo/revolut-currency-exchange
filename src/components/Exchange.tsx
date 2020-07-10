@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {ExchangePocket} from './ExchangePocket'
+import {ExchangeRateDisplay} from './ExchangeRateDisplay'
 
 export const Exchange: React.FC = ({children}) => (
   <div className="rounded-md overflow-hidden border border-gray-300">
@@ -11,9 +12,9 @@ export const Exchange: React.FC = ({children}) => (
     </div>
 
     <div className="-my-4 flex justify-center items-center">
-      <div className="bg-white border border-gray-200 shadow-sm rounded-full overflow-hidden px-2 py-1">
-        <span className="text-xs font-semibold">exchange rate</span>
-      </div>
+      <span className="text-blue-500">
+        <ExchangeRateDisplay from="GBP" to="USD" rate="1.2345" />
+      </span>
     </div>
 
     <div className="bg-gray-400">

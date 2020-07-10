@@ -4,6 +4,7 @@ import Head from 'next/head'
 import {NarrowContainer} from '../components/NarrowContainer'
 import {Card} from '../components/Card'
 import {CardHeader} from '../components/CardHeader'
+import {Exchange} from '../components/Exchange'
 
 export default function Home() {
   return (
@@ -17,7 +18,9 @@ export default function Home() {
           <Card>
             <CardHeader>Exchange</CardHeader>
 
-            <div className="px-4 py-5 sm:p-6">tbc</div>
+            <div className="px-4 py-5 sm:p-6">
+              <Exchange />
+            </div>
           </Card>
         </div>
       </NarrowContainer>

@@ -22,9 +22,11 @@ type Event =
   | {type: 'CHANGE_TO_AMOUNT'; amount?: string}
   | {type: 'CONVERT_FROM'}
   | {type: 'CONVERT_TO'}
+  | {type: 'POLL'}
 
 type State =
-  | {value: 'initial'; context: Context}
+  | {value: 'values.editing'; context: Context}
+  | {value: 'values.validating'; context: Context}
   | {value: 'poll.initial'; context: Context}
   | {value: 'poll.idle'; context: Context}
   | {value: 'poll.polling'; context: Context}
@@ -44,58 +46,49 @@ export const exchangeMachine = createMachine<Context, Event, State>({
       )
     },
   },
-  initial: 'initial',
   type: 'parallel',
   states: {
-    initial: {},
-    poll: {
-      initial: 'initial',
+    values: {
+      initial: 'editing',
       states: {
-        initial: {
-          after: {
-            1: 'polling',
-          },
-        },
-        idle: {
+        editing: {
           on: {
             CHANGE_FROM_CURRENCY: [
               {
-                target: 'polling',
-                actions: assign({
-                  to: (ctx) => ctx.from,
-                  from: (_ctx, evt) => evt.currency,
-                }),
+                actions: send({type: 'SWITCH_CURRENCIES'}),
                 cond: (ctx, evt) => ctx.to === evt.currency,
               },
               {
-                target: 'polling',
-                actions: assign({
-                  from: (_ctx, evt) => evt.currency,
-                }),
+                actions: [
+                  assign({
+                    from: (_ctx, evt) => evt.currency,
+                  }),
+                  send({type: 'POLL'}),
+                ],
               },
             ],
             CHANGE_TO_CURRENCY: [
               {
-                target: 'polling',
-                actions: assign({
-                  from: (ctx) => ctx.from,
-                  to: (_ctx, evt) => evt.currency,
-                }),
+                actions: send({type: 'SWITCH_CURRENCIES'}),
                 cond: (ctx, evt) => ctx.from === evt.currency,
               },
               {
-                target: 'polling',
-                actions: assign({
-                  to: (_ctx, evt) => evt.currency,
-                }),
+                actions: [
+                  assign({
+                    to: (_ctx, evt) => evt.currency,
+                  }),
+                  send({type: 'POLL'}),
+                ],
               },
             ],
             SWITCH_CURRENCIES: {
-              target: 'polling',
-              actions: assign({
-                from: (ctx) => ctx.to,
-                to: (ctx) => ctx.from,
-              }),
+              actions: [
+                assign({
+                  from: (ctx) => ctx.to,
+                  to: (ctx) => ctx.from,
+                }),
+                send({type: 'POLL'}),
+              ],
             },
             CHANGE_FROM_AMOUNT: {
               actions: [
@@ -129,6 +122,22 @@ export const exchangeMachine = createMachine<Context, Event, State>({
                   (parseFloat(fromAmount) * rate).toFixed(2),
               }),
             },
+          },
+        },
+        validating: {},
+      },
+    },
+    poll: {
+      initial: 'initial',
+      states: {
+        initial: {
+          after: {
+            1: 'polling',
+          },
+        },
+        idle: {
+          on: {
+            POLL: 'polling',
           },
           after: {
             10000: 'polling',

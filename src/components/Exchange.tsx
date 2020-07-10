@@ -32,6 +32,10 @@ export const Exchange: React.FC<Props> = ({
     send({type: 'CHANGE_FROM_CURRENCY', currency})
   const changeToCurrency = (currency: Currency) =>
     send({type: 'CHANGE_TO_CURRENCY', currency})
+  const changeFromAmount = (amount?: string) =>
+    send({type: 'CHANGE_FROM_AMOUNT', amount})
+  const changeToAmount = (amount?: string) =>
+    send({type: 'CHANGE_TO_AMOUNT', amount})
 
   const currencies = Object.keys(state.context.pockets) as Currency[]
 
@@ -45,6 +49,8 @@ export const Exchange: React.FC<Props> = ({
             currency={state.context.from}
             balance={state.context.pockets[state.context.from]}
             onChangeCurrency={changeFromCurrency}
+            amount={state.context.fromAmount}
+            onChangeAmount={changeFromAmount}
           />
         </div>
       </div>
@@ -69,6 +75,8 @@ export const Exchange: React.FC<Props> = ({
             currency={state.context.to}
             balance={state.context.pockets[state.context.to]}
             onChangeCurrency={changeToCurrency}
+            amount={state.context.toAmount}
+            onChangeAmount={changeToAmount}
           />
         </div>
       </div>

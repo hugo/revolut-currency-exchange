@@ -5,6 +5,8 @@ import {Currency} from './currency'
 type Context = {
   from: Currency
   to: Currency
+  fromAmount?: number
+  toAmount?: number
   pockets: Record<Currency, number>
   rate?: number
   error?: Error
@@ -14,6 +16,8 @@ type Context = {
 type Event =
   | {type: 'CHANGE_FROM_CURRENCY'; currency: Currency}
   | {type: 'CHANGE_TO_CURRENCY'; currency: Currency}
+  | {type: 'CHANGE_FROM_AMOUNT'; amount?: string}
+  | {type: 'CHANGE_TO_AMOUNT'; amount?: string}
 
 type State =
   | {value: 'initial'; context: Context}
@@ -82,6 +86,12 @@ export const exchangeMachine = createMachine<Context, Event, State>({
                 }),
               },
             ],
+            CHANGE_FROM_AMOUNT: {
+              actions: assign({fromAmount: (_ctx, evt) => evt.amount}),
+            },
+            CHANGE_TO_AMOUNT: {
+              actions: assign({toAmount: (_ctx, evt) => evt.amount}),
+            },
           },
           after: {
             10000: 'polling',

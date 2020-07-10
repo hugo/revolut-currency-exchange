@@ -1,9 +1,9 @@
 import React from 'react'
-import {ChevronDown} from 'heroicons-react'
 
 import {Currency} from '../lib/currency'
 import FormattedCurrency from './FormattedCurrency'
 import {CurrencyPicker} from './CurrencyPicker'
+import {DecimalInput} from './DecimalInput'
 
 // Without this mapping we'll end up showing US$x.xx instead of $x.xx for
 // USD balances
@@ -19,7 +19,9 @@ type Props = {
   currency: Currency
   balance: number
   direction: 'from' | 'to'
+  amount?: number
   onChangeCurrency?(c: Currency): void
+  onChangeAmount?(v?: string): void
 }
 
 export const ExchangePocket: React.FC<Props> = ({
@@ -27,7 +29,9 @@ export const ExchangePocket: React.FC<Props> = ({
   currency,
   balance,
   direction,
+  amount,
   onChangeCurrency,
+  onChangeAmount,
 }) => (
   <div className="flex">
     <div>
@@ -52,6 +56,11 @@ export const ExchangePocket: React.FC<Props> = ({
         </span>
       </div>
     </div>
-    <div className="flex-1 flex justify-end items-center">currency input</div>
+    <div className="flex-1 flex justify-end items-center">
+      <DecimalInput
+        onChange={onChangeAmount}
+        value={amount ? `${amount}` : ''}
+      />
+    </div>
   </div>
 )

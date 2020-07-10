@@ -1,9 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with
-[`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is (very simplified) immitation of the Revolut currency exchange.
+
+## Requirements
+
+### Hard requirements
+
+- [ ] Poll for new rates every 10 seconds
+- [ ] Offer (at least) three "pockets" in (at least) these currencies:
+  - [ ] GBP
+  - [ ] EUR
+  - [ ] USD
+- [ ] Facilitate trades between pockets
+- [ ] Have an input for each currency involved in the trade
+  - [ ] Only allow entering decimal numbers to 2dp
+- [ ] Show all required information
+  - [ ] Show current exchange rate
+  - [ ] Show "pocket" balances
+
+### Stretch goals
+
+- [ ] Button to toggle trade direction (small enough and useful enough to do)
+- [ ] Historical prices (likely will not bother)
+- [ ] Auto exchange (also likely will not bother)
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
+
+```bash
+npm install
+# or
+yarn
+```
+
+Run the server
 
 ```bash
 npm run dev
@@ -14,27 +43,16 @@ yarn dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 result.
 
-You can start editing the page by modifying `pages/index.js`. The page
-auto-updates as you edit the file.
+## Tests
 
-## Learn More
+Use Jest and can be run using the standard invocation:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run test
+# or, in watch mode
+npm run test:watch
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Miscellanea
 
-You can check out
-[the Next.js GitHub repository](https://github.com/vercel/next.js/) - your
-feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the
-[Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme)
-from the creators of Next.js.
-
-Check out our
-[Next.js deployment documentation](https://nextjs.org/docs/deployment) for more
-details.
+Format code using [prettier](https://prettier.io) and stop worrying about it.

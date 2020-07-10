@@ -65,7 +65,7 @@ export const Exchange: React.FC<Props> = ({
                 e.currentTarget.blur()
                 switchCurrencies()
               }}
-              className="z-10 bg-white cursor-pointer text-blue-500 border border-gray-200 shadow-sm rounded-full overflow-hidden p-1"
+              className="bg-white cursor-pointer text-blue-500 border border-gray-200 shadow-sm rounded-full overflow-hidden p-1"
             >
               <SwitchVertical size={14} />
             </button>

@@ -1,4 +1,5 @@
 import React from 'react'
+import {ChevronDown} from 'heroicons-react'
 
 import {Currency} from '../lib/currency'
 import FormattedCurrency from './FormattedCurrency'
@@ -20,19 +21,27 @@ type Props = {
 export const ExchangePocket: React.FC<Props> = ({currency, balance}) => (
   <div className="flex">
     <div>
-      <div>pocket selector — {currency}</div>
+      <div className="flex items-center">
+        <span className="text-3xl font-semibold">{currency}</span>{' '}
+        <span>
+          <ChevronDown size={24} />
+        </span>
+      </div>
+
       <div>
-        pocket balance —{' '}
-        <FormattedCurrency
-          amount={balance}
-          locale={currencyLocales[currency]}
-          options={{
-            currency,
-            currencyDisplay: 'symbol',
-          }}
-        />
+        <span className="text-sm text-gray-500">
+          Balance:{' '}
+          <FormattedCurrency
+            amount={balance}
+            locale={currencyLocales[currency]}
+            options={{
+              currency,
+              currencyDisplay: 'symbol',
+            }}
+          />
+        </span>
       </div>
     </div>
-    <div className="flex-1 text-right">currency input</div>
+    <div className="flex-1 flex justify-end items-center">currency input</div>
   </div>
 )

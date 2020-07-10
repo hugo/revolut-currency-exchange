@@ -6,7 +6,7 @@ const pattern = '^\\d+(?:\\.\\d{1,2}|\\.)?$'
 const re = new RegExp(pattern)
 
 type Props = {
-  onChange(v?: string): void
+  onChange?(v?: string): void
   value: string
 }
 
@@ -23,7 +23,7 @@ export const DecimalInput: React.FC<Props> = ({onChange, value}) => {
         } = e
 
         if (value === '') {
-          onChange(undefined)
+          onChange?.(undefined)
         }
 
         // Only fire the onChange callback if it would result in a valid valiue

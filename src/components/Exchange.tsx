@@ -29,11 +29,15 @@ export const Exchange: React.FC<Props> = ({
     },
   })
 
+  const currencies = Object.keys(state.context.pockets) as Currency[]
+
   return (
     <div className="rounded-md overflow-hidden border border-gray-300">
       <div className="bg-white">
         <div className="p-6">
           <ExchangePocket
+            direction="from"
+            currencies={currencies}
             currency={state.context.from}
             balance={state.context.pockets[state.context.from]}
           />
@@ -55,6 +59,8 @@ export const Exchange: React.FC<Props> = ({
       <div className="bg-gray-400">
         <div className="p-6">
           <ExchangePocket
+            direction="to"
+            currencies={currencies}
             currency={state.context.to}
             balance={state.context.pockets[state.context.to]}
           />

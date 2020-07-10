@@ -3,6 +3,7 @@ import {ChevronDown} from 'heroicons-react'
 
 import {Currency} from '../lib/currency'
 import FormattedCurrency from './FormattedCurrency'
+import {CurrencyPicker} from './CurrencyPicker'
 
 // Without this mapping we'll end up showing US$x.xx instead of $x.xx for
 // USD balances
@@ -14,19 +15,25 @@ const currencyLocales: Record<Currency, string> = {
 }
 
 type Props = {
+  currencies: Currency[]
   currency: Currency
   balance: number
+  direction: 'from' | 'to'
 }
 
-export const ExchangePocket: React.FC<Props> = ({currency, balance}) => (
+export const ExchangePocket: React.FC<Props> = ({
+  currencies,
+  currency,
+  balance,
+  direction,
+}) => (
   <div className="flex">
     <div>
-      <div className="flex items-center">
-        <span className="text-3xl font-semibold">{currency}</span>{' '}
-        <span>
-          <ChevronDown size={24} />
-        </span>
-      </div>
+      <CurrencyPicker
+        currencies={currencies}
+        currency={currency}
+        position={direction === 'from' ? 'below' : 'above'}
+      />
 
       <div>
         <span className="text-sm text-gray-500">

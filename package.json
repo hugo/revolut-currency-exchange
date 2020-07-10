@@ -13,7 +13,9 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@types/classnames": "^2.2.10",
     "@xstate/react": "^0.8.1",
+    "classnames": "^2.2.6",
     "heroicons-react": "^1.0.15",
     "i": "^0.3.6",
     "next": "9.4.4",

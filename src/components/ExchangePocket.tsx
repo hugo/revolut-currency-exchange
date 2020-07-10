@@ -19,6 +19,7 @@ type Props = {
   currency: Currency
   balance: number
   direction: 'from' | 'to'
+  onChangeCurrency?(c: Currency): void
 }
 
 export const ExchangePocket: React.FC<Props> = ({
@@ -26,6 +27,7 @@ export const ExchangePocket: React.FC<Props> = ({
   currency,
   balance,
   direction,
+  onChangeCurrency,
 }) => (
   <div className="flex">
     <div>
@@ -33,6 +35,7 @@ export const ExchangePocket: React.FC<Props> = ({
         currencies={currencies}
         currency={currency}
         position={direction === 'from' ? 'below' : 'above'}
+        onPickCurrency={onChangeCurrency}
       />
 
       <div>

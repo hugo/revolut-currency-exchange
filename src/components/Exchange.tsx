@@ -16,7 +16,7 @@ type Props = {
 export const Exchange: React.FC<Props> = ({
   pollExchangeRate = exchangeRate,
 }) => {
-  const [state] = useMachine(exchangeMachine, {
+  const [state, send] = useMachine(exchangeMachine, {
     context: {
       from: 'GBP',
       to: 'USD',
@@ -28,6 +28,10 @@ export const Exchange: React.FC<Props> = ({
       pollExchangeRate,
     },
   })
+  const changeFromCurrency = (currency: Currency) =>
+    send({type: 'CHANGE_FROM_CURRENCY', currency})
+  const changeToCurrency = (currency: Currency) =>
+    send({type: 'CHANGE_TO_CURRENCY', currency})
 
   const currencies = Object.keys(state.context.pockets) as Currency[]
 
@@ -40,6 +44,7 @@ export const Exchange: React.FC<Props> = ({
             currencies={currencies}
             currency={state.context.from}
             balance={state.context.pockets[state.context.from]}
+            onChangeCurrency={changeFromCurrency}
           />
         </div>
       </div>
@@ -48,8 +53,8 @@ export const Exchange: React.FC<Props> = ({
         {state.context.rate ? (
           <span className="text-blue-500">
             <ExchangeRateDisplay
-              from="GBP"
-              to="USD"
+              from={state.context.from}
+              to={state.context.to}
               rate={state.context.rate.toFixed(4)}
             />
           </span>
@@ -63,6 +68,7 @@ export const Exchange: React.FC<Props> = ({
             currencies={currencies}
             currency={state.context.to}
             balance={state.context.pockets[state.context.to]}
+            onChangeCurrency={changeToCurrency}
           />
         </div>
       </div>

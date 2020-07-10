@@ -11,7 +11,9 @@ type Context = {
   pollExchangeRate(from: Currency, to: Currency): Promise<number>
 }
 
-type Event = any
+type Event =
+  | {type: 'CHANGE_FROM_CURRENCY'; currency: Currency}
+  | {type: 'CHANGE_TO_CURRENCY'; currency: Currency}
 
 type State =
   | {value: 'initial'; context: Context}
@@ -47,6 +49,40 @@ export const exchangeMachine = createMachine<Context, Event, State>({
           },
         },
         idle: {
+          on: {
+            CHANGE_FROM_CURRENCY: [
+              {
+                target: 'polling',
+                actions: assign({
+                  to: (ctx) => ctx.from,
+                  from: (_ctx, evt) => evt.currency,
+                }),
+                cond: (ctx, evt) => ctx.to === evt.currency,
+              },
+              {
+                target: 'polling',
+                actions: assign({
+                  from: (_ctx, evt) => evt.currency,
+                }),
+              },
+            ],
+            CHANGE_TO_CURRENCY: [
+              {
+                target: 'polling',
+                actions: assign({
+                  from: (ctx) => ctx.from,
+                  to: (_ctx, evt) => evt.currency,
+                }),
+                cond: (ctx, evt) => ctx.from === evt.currency,
+              },
+              {
+                target: 'polling',
+                actions: assign({
+                  to: (_ctx, evt) => evt.currency,
+                }),
+              },
+            ],
+          },
           after: {
             10000: 'polling',
           },

@@ -89,7 +89,9 @@ export const exchangeMachine = createMachine<Context, Event, State>({
               actions: [
                 assign({
                   from: (ctx) => ctx.to,
+                  fromAmount: (ctx) => ctx.toAmount,
                   to: (ctx) => ctx.from,
+                  toAmount: (ctx) => ctx.fromAmount,
                 }),
                 send({type: 'POLL'}),
               ],

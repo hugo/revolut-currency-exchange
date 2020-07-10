@@ -197,7 +197,10 @@ export const exchangeMachine = createMachine<Context, Event, State>({
             src: (ctx) => ctx.pollExchangeRate(ctx.from, ctx.to),
             onDone: {
               target: 'idle',
-              actions: assign({rate: (_ctx, evt) => evt.data}),
+              actions: [
+                assign({rate: (_ctx, evt) => evt.data}),
+                send({type: 'CONVERT_TO'}),
+              ],
             },
             onError: {
               target: 'idle',

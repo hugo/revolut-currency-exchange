@@ -1,6 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 
+import {Currency} from '../lib/currency'
 import {NarrowContainer} from '../components/NarrowContainer'
 import {Card} from '../components/Card'
 import {CardHeader} from '../components/CardHeader'

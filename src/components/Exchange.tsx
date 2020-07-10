@@ -21,9 +21,9 @@ export const Exchange: React.FC<Props> = ({
       from: 'GBP',
       to: 'USD',
       pockets: {
-        GBP: Math.random() * 2000,
-        EUR: Math.random() * 2000,
-        USD: Math.random() * 2000,
+        GBP: 1121.65,
+        EUR: 1258.92,
+        USD: 1307.31,
       },
       pollExchangeRate,
     },

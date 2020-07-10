@@ -5,14 +5,15 @@ import {Currency} from '../lib/currency'
 import {ExchangePocket} from './ExchangePocket'
 import {ExchangeRateDisplay} from './ExchangeRateDisplay'
 import {exchangeMachine} from '../lib/exchangeMachine'
-
-const fakePoll = () => Promise.resolve(1 + 1 * Math.random())
+import {exchangeRate} from '../lib/exchangeRate'
 
 type Props = {
   pollExchangeRate?(from: Currency, to: Currency): Promise<number>
 }
 
-export const Exchange: React.FC<Props> = ({pollExchangeRate = fakePoll}) => {
+export const Exchange: React.FC<Props> = ({
+  pollExchangeRate = exchangeRate,
+}) => {
   const [state] = useMachine(exchangeMachine, {
     context: {
       from: 'GBP',

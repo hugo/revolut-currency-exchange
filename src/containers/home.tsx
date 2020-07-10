@@ -8,8 +8,10 @@ export default function Home() {
         <title>Exchange</title>
       </Head>
 
-      <div className="font-bold p-4">
-        <h1>Exchange</h1>
+      <div className="flex-1 flex justify-center items-center">
+        <div className="font-bold p-4">
+          <h1>Exchange</h1>
+        </div>
       </div>
     </>
   )

@@ -1,4 +1,4 @@
-import {createMachine, assign, send} from 'xstate'
+import {createMachine, assign} from 'xstate'
 
 import {Currency} from './currency'
 
@@ -19,6 +19,15 @@ type State =
   | {value: 'poll.polling'; context: Context}
 
 export const exchangeMachine = createMachine<Context, Event, State>({
+  context: {
+    from: 'GBP',
+    to: 'USD',
+    pollExchangeRate() {
+      return Promise.reject(
+        new Error('Must provide `pollExchangeRate` function')
+      )
+    },
+  },
   initial: 'initial',
   type: 'parallel',
   states: {

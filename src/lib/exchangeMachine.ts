@@ -23,6 +23,7 @@ type Event =
   | {type: 'CONVERT_FROM'}
   | {type: 'CONVERT_TO'}
   | {type: 'POLL'}
+  | {type: 'EXCHANGE'}
 
 type State =
   | {value: 'values.editing'; context: Context}
@@ -129,6 +130,24 @@ export const exchangeMachine = createMachine<Context, Event, State>({
                   fromAmount
                     ? (parseFloat(fromAmount) * rate).toFixed(2)
                     : undefined,
+              }),
+            },
+            // Fake it for now. IRL this would trigger some external action
+            EXCHANGE: {
+              actions: assign({
+                fromAmount: (_ctx) => undefined,
+                toAmount: (_ctx) => undefined,
+                pockets: ({
+                  from,
+                  to,
+                  fromAmount = '0',
+                  toAmount = '0',
+                  pockets,
+                }) => ({
+                  ...pockets,
+                  [from]: pockets[from] - parseFloat(fromAmount ?? '0'),
+                  [to]: pockets[to] + parseFloat(toAmount ?? '0'),
+                }),
               }),
             },
           },

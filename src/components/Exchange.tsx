@@ -114,7 +114,7 @@ export const Exchange: React.FC<Props> = ({
       <div className="my-8" />
 
       <div className="flex justify-center">
-        <ExchangeButton onClick={exchange} isEnabled={isButtonEnabled} />
+        <ExchangeButton onClick={exchange} disabled={!isButtonEnabled} />
       </div>
     </>
   )

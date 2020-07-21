@@ -3,6 +3,7 @@ import {useMachine} from '@xstate/react'
 import {SwitchVertical} from 'heroicons-react'
 
 import {Currency} from '../lib/currency'
+import {Pockets} from '../lib/pockets'
 import {ExchangePocket} from './ExchangePocket'
 import {ExchangeRateDisplay} from './ExchangeRateDisplay'
 import {exchangeMachine} from '../lib/exchangeMachine'
@@ -10,23 +11,21 @@ import {exchangeRate} from '../lib/exchangeRate'
 import {ExchangeButton} from './ExchangeButton'
 
 type Props = {
+  pockets: Pockets
   // In the real world, we'd expect this to be passed in
   // pockets: Record<Currency, number>
   pollExchangeRate?(from: Currency, to: Currency): Promise<number>
 }
 
 export const Exchange: React.FC<Props> = ({
+  pockets,
   pollExchangeRate = exchangeRate,
 }) => {
   const [state, send] = useMachine(exchangeMachine, {
     context: {
       from: 'GBP',
       to: 'USD',
-      pockets: {
-        GBP: 1121.65,
-        EUR: 1258.92,
-        USD: 1307.31,
-      },
+      pockets,
       pollExchangeRate,
     },
   })

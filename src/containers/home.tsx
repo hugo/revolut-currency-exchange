@@ -11,6 +11,13 @@ type Props = {
   header?: string
 }
 
+// Hardcoded for purposes of demo
+const pockets = {
+  GBP: 1121.65,
+  EUR: 1258.92,
+  USD: 1307.31,
+}
+
 export default function Home({header = 'Exchange'}: Props) {
   return (
     <>
@@ -24,7 +31,7 @@ export default function Home({header = 'Exchange'}: Props) {
             <CardHeader>{header}</CardHeader>
 
             <div className="py-5 sm:py-6">
-              <Exchange />
+              <Exchange pockets={pockets} />
             </div>
           </Card>
         </div>

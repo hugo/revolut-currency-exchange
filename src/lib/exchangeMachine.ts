@@ -1,14 +1,15 @@
 import {createMachine, assign, send} from 'xstate'
+import {cancel} from 'xstate/lib/actions'
 
 import {Currency} from './currency'
-import {cancel} from 'xstate/lib/actions'
+import {Pockets} from './pockets'
 
 type Context = {
   from: Currency
   to: Currency
   fromAmount?: string
   toAmount?: string
-  pockets: Record<Currency, number>
+  pockets: Pockets
   rate?: number
   error?: Error
   pollExchangeRate(from: Currency, to: Currency): Promise<number>
